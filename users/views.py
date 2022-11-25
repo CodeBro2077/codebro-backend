@@ -19,7 +19,7 @@ class UserAPIView(APIView):
 class LoginAPIView(APIView):
     def post(self, request):
         serializer = LoginSerializer(data=request.data)
-        if serializer.is_valid():
+        if serializer.is_valid(raise_exception=True):
             return Response(status=200, data=serializer.validated_data)
         return Response(status=400)
 

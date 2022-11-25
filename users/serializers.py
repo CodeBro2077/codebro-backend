@@ -39,24 +39,19 @@ class LoginSerializer(serializers.Serializer):
     def validate(self, attrs):
 
         name = attrs.get('name')
-
-        if name is None:
-            raise ValueError('name not found')
-
         password = attrs.get('password')
 
-        if password is None:
-            raise ValueError('password not found')
+        if name is not None and password is not None:
 
-        user = authenticate(name=name,
-                            password=password)
+            user = authenticate(name=name,
+                                password=password)
 
-        if user is None:
-            return {'error': 'user with this name and password was not found'}
+            if user is not None:
+                return {
+                    'email': user.email,
+                    'username': user.username,
+                    'token': user.token
+                }
+            raise serializers.ValidationError('user with this name and password was not found')
 
-        return {
-            'email': user.email,
-            'username': user.username,
-            'token': user.token
-        }
-
+        raise serializers.ValidationError('auth data not found')
