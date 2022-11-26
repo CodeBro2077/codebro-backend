@@ -3,6 +3,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from .serializers import *
 
+from rest_framework.permissions import IsAuthenticated
+
 
 class UserAPIView(APIView):
     def post(self, request):
@@ -22,5 +24,3 @@ class LoginAPIView(APIView):
         if serializer.is_valid(raise_exception=True):
             return Response(status=200, data=serializer.validated_data)
         return Response(status=400)
-
-

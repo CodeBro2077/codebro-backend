@@ -62,10 +62,11 @@ class User(AbstractBaseUser):
         return self.generate_jwt_token()
 
     def generate_jwt_token(self):
-        dt = datetime.now() + timedelta(days=1)
+        dt = datetime.now() + timedelta(days=45)
+
         token = jwt.encode({
             'id': self.pk,
-            'exp': int(dt.strftime('%S'))
+            'exp': dt.strftime('%s')
         },
             settings.SECRET_KEY, algorithm='HS256').decode('utf-8')
 
