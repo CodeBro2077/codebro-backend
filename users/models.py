@@ -3,6 +3,8 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from datetime import datetime, timedelta
 import jwt
 from django.conf import settings
+from django.contrib.auth.models import PermissionsMixin
+from .models_settings import job_levels_choices
 
 
 class UserManager(BaseUserManager):
@@ -25,21 +27,43 @@ class UserManager(BaseUserManager):
         return user
 
 
-class User(AbstractBaseUser):
+class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(verbose_name='email',
                               db_index=True,
                               unique=True,
                               max_length=35)
+
     username = models.CharField(verbose_name='имя пользователя',
                                 db_index=True,
                                 unique=True,
                                 max_length=30,
                                 blank=True,
                                 null=True)
+
+    github_link = models.CharField(verbose_name='ссылка на гитхаб',
+                                   max_length=100,
+                                   blank=True,
+                                   null=True)
+
+    job = models.CharField(verbose_name='профессия',
+                           max_length=35,
+                           blank=True,
+                           null=True)
+
     photo = models.ImageField(verbose_name='аватарка',
-                              upload_to='',
+                              upload_to='user_photo/',
                               blank=True,
                               null=True)
+
+    stack = models.TextField(verbose_name='стек технологий',
+                             blank=True,
+                             null=True)
+
+    job_level = models.CharField(verbose_name='уровень',
+                                 max_length=10,
+                                 choices=job_levels_choices,
+                                 blank=True,
+                                 null=True)
 
     is_active = models.BooleanField(default=True)
 
@@ -55,6 +79,16 @@ class User(AbstractBaseUser):
 
     @property
     def is_staff(self):
+        return self.is_admin
+
+    def has_perm(self, perm, obj=None):
+        return self.is_admin
+
+    def has_module_perms(self, app_label):
+        return self.is_admin
+
+    @property
+    def is_superuser(self):
         return self.is_admin
 
     @property

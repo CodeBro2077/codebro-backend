@@ -134,5 +134,7 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'users.backends.JWTAuthentication'
-    ]
+    ],
+    'NON_FIELD_ERRORS_KEY': 'error',
+
 }

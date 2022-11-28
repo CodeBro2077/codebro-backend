@@ -1,8 +1,7 @@
 from rest_framework import serializers
-from django.contrib.auth.models import AnonymousUser
-
 from .models import User
 from .logics.login import authenticate
+from .logics.registration import is_username_taken, is_email_taken
 
 
 class RegistrationSerializer(serializers.ModelSerializer):
@@ -55,3 +54,39 @@ class LoginSerializer(serializers.Serializer):
             raise serializers.ValidationError('user with this name and password was not found')
 
         raise serializers.ValidationError('auth data not found')
+
+
+class ProfileSerializer(serializers.ModelSerializer):
+    email = serializers.EmailField(max_length=35)
+    username = serializers.CharField(max_length=30,
+                                     required=False)
+    github_link = serializers.CharField(max_length=100,
+                                        required=False)
+    job = serializers.CharField(max_length=35,
+                                allow_null=True,
+                                allow_blank=True)
+    photo = serializers.ImageField(required=False)
+    stack = serializers.CharField(required=False)
+    job_level = serializers.CharField(source='get_job_level_display',
+                                      required=False)
+
+    def validate(self, attrs):
+        username = attrs.get('username')
+        email = attrs.get('email')
+        if username is not None and is_username_taken(username):
+            raise serializers.ValidationError('username is already taken')
+
+        if email is not None and is_email_taken(email):
+            raise serializers.ValidationError('email is already taken')
+
+        return attrs
+
+    class Meta:
+        model = User
+        fields = ('email',
+                  'username',
+                  'github_link',
+                  'job',
+                  'photo',
+                  'stack',
+                  'job_level', )
