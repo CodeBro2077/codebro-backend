@@ -42,10 +42,8 @@ class ProfileAPIView(APIView):
 
     def get(self, request):
         user = request.user
-        if user.is_authenticated:
-            serializer = ProfileSerializer(user)
-            return Response(status=200, data=serializer.data)
-        return Response(status=403)
+        serializer = ProfileSerializer(user)
+        return Response(status=200, data=serializer.data)
 
     def patch(self, request):
         serializer = ProfileSerializer(instance=request.user,
