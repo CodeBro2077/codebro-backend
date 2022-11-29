@@ -1,5 +1,11 @@
 from drf_yasg import openapi
 
+USER_NOT_AUTHORIZED_RESPONSE = openapi.Response('user not authorised',
+                                                examples={'application/json': {
+                                                    'error': 'user not authorised'
+                                                }})
+
+
 user_create_doc = {
     'request_body': openapi.Schema(type=openapi.TYPE_OBJECT,
                                    required=['email', 'password'],
@@ -55,10 +61,7 @@ is_authenticated_doc = {
                                 examples={'application/json': {
                                     'is_authenticated': True
                                 }}),
-        '403': openapi.Response('user not autheticated',
-                                examples={'application/json': {
-                                    "detail": "Невозможно декодировать токен"
-                                }})
+        '403': USER_NOT_AUTHORIZED_RESPONSE
     }
 }
 
@@ -111,10 +114,7 @@ get_profile_doc = {
     ], 'responses': {
         '200': openapi.Response('ok',
                                 examples={'application/json': PROFILE_EXAMPLE}),
-        '403': openapi.Response('user not found',
-                                examples={'application/json': {
-                                    "detail": "Учетные данные не были предоставлены."
-                                }})
+        '403': USER_NOT_AUTHORIZED_RESPONSE
     }
 }
 
@@ -155,10 +155,7 @@ update_profile_doc = {
     ], 'responses': {
         '201': openapi.Response('ok',
                                 examples={'application/json': PROFILE_EXAMPLE}),
-        '403': openapi.Response('user not found',
-                                examples={'application/json': {
-                                    "detail": "Учетные данные не были предоставлены."
-                                }})
+        '403': USER_NOT_AUTHORIZED_RESPONSE
     }
 
 }
