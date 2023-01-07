@@ -26,6 +26,10 @@ class Posts(models.Model):
     markdown = models.TextField(verbose_name='разметка')
     description = models.TextField(verbose_name='описание')
     followers = models.ManyToManyField(User, related_name='post_followers')
+    image = models.ImageField(verbose_name='аватарка',
+                              upload_to='posts_images',
+                              null=True,
+                              blank=True)
 
     def __str__(self):
         return self.name

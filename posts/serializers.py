@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .logics.markdown import add_paths_to_markdown
+from .logics.rating import get_post_rating
 from .models import Posts, Categories, Images
 from django.conf import settings
 
@@ -15,7 +16,7 @@ class PostViewSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         post = super(PostViewSerializer, self).to_representation(instance)
-        post.markdown = instance.markdown.replace('[API_URL]', settings.API_URL)
+        post['markdown'] = instance.markdown.replace('[API_URL]', settings.API_URL)
         return post
 
     class Meta:
@@ -69,4 +70,15 @@ class PostCreateSerializer(serializers.Serializer):
     def to_representation(self, instance):
         return PostViewSerializer(instance).data
 
+
+class PostPreviewSerializer(serializers.Serializer):
+    def to_representation(self, instance):
+        post = {
+            'pk': instance.pk,
+            'name': instance.name,
+            'description': instance.description,
+            'image': settings.API_URL + instance.image.url if instance.image else None,
+            'rating': get_post_rating(instance.pk)
+        }
+        return post
 

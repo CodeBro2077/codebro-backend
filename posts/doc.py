@@ -16,6 +16,14 @@ POST_VIEW_RESPONSE = openapi.Response(description='ok',
 
                                       }})
 
+POSTS_PREVIEW_RESPONSE = {
+    'pk': 1,
+    'name': 'post name',
+    'description': 'super post',
+    'image': 'https://127.0.0.0.1:8000/media/posts_image/image.jpg',
+    'rating': 4
+}
+
 post_create_doc = {
     'manual_parameters': [
         AUTH_PARAMETER,
@@ -59,5 +67,22 @@ get_categories_doc = {
     'responses': {
         '200': openapi.Response('ok',
                                 examples={'application/json': CATEGORIES_EXAMPLE})
+    }
+}
+
+get_posts_with_category_doc = {
+    'responses': {
+        '200': openapi.Response('ok',
+                                examples={'application/json': [POSTS_PREVIEW_RESPONSE,
+                                                               POSTS_PREVIEW_RESPONSE]})
+    }
+}
+
+get_all_posts_doc = {
+    'responses': {
+        '200': openapi.Response('ok',
+                                examples={'application/json': [POSTS_PREVIEW_RESPONSE,
+                                                               POSTS_PREVIEW_RESPONSE,
+                                                               POSTS_PREVIEW_RESPONSE]})
     }
 }
