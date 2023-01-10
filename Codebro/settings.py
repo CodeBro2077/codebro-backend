@@ -1,6 +1,7 @@
 from pathlib import Path
 import os
 import dotenv
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -36,6 +37,7 @@ INSTALLED_APPS = [
 
 MY_APPS = [
     'users.apps.UsersConfig',
+    'posts.apps.PostsConfig'
 ]
 
 INSTALLED_APPS += MY_APPS
@@ -123,6 +125,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:8000",
+    "http://127.0.0.1:5501",
 ]
 
 REST_FRAMEWORK = {
@@ -138,3 +141,7 @@ REST_FRAMEWORK = {
     'NON_FIELD_ERRORS_KEY': 'error',
 
 }
+
+API_URL = 'http://127.0.0.1:8000'
+
+

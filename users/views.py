@@ -1,11 +1,10 @@
-from drf_yasg import openapi
 from rest_framework.decorators import api_view
 from .doc import *
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .serializers import *
 from .logics.registration import is_username_taken, is_email_taken
-from rest_framework.parsers import MultiPartParser, JSONParser
+from rest_framework.parsers import MultiPartParser
 from rest_framework.permissions import IsAuthenticated
 from drf_yasg.utils import swagger_auto_schema
 

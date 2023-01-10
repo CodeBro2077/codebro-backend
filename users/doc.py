@@ -5,6 +5,10 @@ USER_NOT_AUTHORIZED_RESPONSE = openapi.Response('user not authorised',
                                                     'error': 'user not authorised'
                                                 }})
 
+AUTH_PARAMETER = openapi.Parameter('Authorization',
+                                   openapi.IN_HEADER,
+                                   description='Token dsadfasdfsadfsd',
+                                   type=openapi.TYPE_STRING)
 
 user_create_doc = {
     'request_body': openapi.Schema(type=openapi.TYPE_OBJECT,
@@ -51,10 +55,7 @@ user_login_doc = {
 
 is_authenticated_doc = {
     'manual_parameters': [
-        openapi.Parameter('Authorization',
-                          openapi.IN_HEADER,
-                          description='Token dsadfasdfsadfsd',
-                          type=openapi.TYPE_STRING)
+        AUTH_PARAMETER,
     ],
     'responses': {
         '200': openapi.Response('ok',
@@ -107,10 +108,8 @@ PROFILE_EXAMPLE = {
 
 get_profile_doc = {
     'manual_parameters': [
-        openapi.Parameter('Authorization',
-                          openapi.IN_HEADER,
-                          description='Token dsadfasdfsadfsd',
-                          type=openapi.TYPE_STRING)
+        AUTH_PARAMETER,
+
     ], 'responses': {
         '200': openapi.Response('ok',
                                 examples={'application/json': PROFILE_EXAMPLE}),
@@ -120,10 +119,7 @@ get_profile_doc = {
 
 update_profile_doc = {
     'manual_parameters': [
-        openapi.Parameter('Authorization',
-                          openapi.IN_HEADER,
-                          description='Token dsadfasdfsadfsd',
-                          type=openapi.TYPE_STRING),
+        AUTH_PARAMETER,
 
         openapi.Parameter('email',
                           openapi.IN_FORM,

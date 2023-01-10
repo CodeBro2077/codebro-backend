@@ -9,7 +9,7 @@ from .models_settings import job_levels_choices
 
 class UserManager(BaseUserManager):
 
-    def create_user(self, email:str, password=None):
+    def create_user(self, email: str, password=None):
         if not email:
             raise ValueError('email not found')
 
